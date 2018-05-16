@@ -1,4 +1,4 @@
-package minesweeper;
+
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -15,7 +15,7 @@ public class Board implements ActionListener {
 	JFrame frame = new JFrame("Minesweeper");
 	JButton reset = new JButton("Reset");
 	JButton[][] buttons = new JButton[12][12];
-	int[][] counts = new int[12][12];
+	Tile[][] counts = new Tile[12][12];
 	Container grid = new Container();
 	final int MINE = 10;
 
@@ -28,6 +28,7 @@ public class Board implements ActionListener {
 		grid.setLayout(new GridLayout(12, 12));
 		for (int i = 0; i < buttons.length; i++) {
 			for (int j = 0; j < buttons[0].length; j++) {
+				
 				buttons[i][j] = new JButton();
 				buttons[i][j].addActionListener(this);
 				grid.add(buttons[i][j]);
@@ -41,41 +42,16 @@ public class Board implements ActionListener {
 	}
 
 	public void createMines() {
-		counts = new int[12][12];
-		int minecount=0;
-		while(minecount<=30) {
+		counts = new Tile[12][12];
 
-			counts[((int)Math.random()*10)+1][((int)Math.random()*10)+1] = MINE;
-		}
 
 		
 		for (int i = 0; i < counts.length; i++) {
 			for (int j = 0; j < counts[0].length; j++) {
-				if (counts[i][j] != MINE) {
-					int neighborCount = 0;
-					if (i > 0 && j > 0 && counts[i - 1][j - 1] == MINE) {// up left
-						neighborCount++;
-					}
-					if (j > 0 && counts[i][j - 1] == MINE) {// up
-						neighborCount++;
-					}
-					if (i < counts.length - 1 && j < counts.length - 1 && counts[i + 1][j + 1] == MINE) {// down right
-						neighborCount++;
-					}
-					// if (i < 0 && j < 0 && counts[i-1][j-1] == MINE) {//up right
-					// neighborCount++;
-					// }
-					// if (i > 0 && counts[i][j-1] == MINE) {//down
-					// neighborCount++;
-					// }
-					// if (i < counts.length -1 && j < counts.length-1 && counts[i+1][j+1] == MINE)
-					// {//down left
-					//
-					// }
-					counts[i][j] = neighborCount;
+					counts[i][j] = new Tile(null);
+						
 				}
 			}
-		}
 		for (int i = 0; i < buttons.length; i++) {
 			for (int j = 0; j < buttons[0].length; j++) {
 				buttons[i][j].setText(counts[i][j] + "");
